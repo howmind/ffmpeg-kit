@@ -188,7 +188,7 @@ public class FFmpegKitFlutterPlugin implements FlutterPlugin, ActivityAware, Met
     @Override
     public void onAttachedToActivity(@NonNull ActivityPluginBinding activityPluginBinding) {
         Log.d(LIBRARY_NAME, String.format("FFmpegKitFlutterPlugin %s attached to activity %s.", this, activityPluginBinding.getActivity()));
-        initActivity(activityPluginBinding.getActivity(), null, activityPluginBinding);
+        initActivity(activityPluginBinding.getActivity(),activityPluginBinding);
     }
 
     @Override
@@ -664,17 +664,11 @@ public class FFmpegKitFlutterPlugin implements FlutterPlugin, ActivityAware, Met
         Log.d(LIBRARY_NAME, String.format("FFmpegKitFlutterPlugin %s initialised with context %s.", this, context));
     }
 
-    private void initActivity(Activity activity, io.flutter.plugin.common.PluginRegistry.Registrar registrar, ActivityPluginBinding activityBinding) {
+    private void initActivity(Activity activity, ActivityPluginBinding activityBinding) {
         this.activity = activity;
-
-        if (registrar != null) {
-            // V1 embedding setup for activity listeners.
-            registrar.addActivityResultListener(this);
-        } else {
-            // V2 embedding setup for activity listeners.
-            activityBinding.addActivityResultListener(this);
-        }
-
+        // V2 embedding setup for activity listeners.
+        activityBinding.addActivityResultListener(this);
+        this.activityPluginBinding = activityBinding;
         Log.d(LIBRARY_NAME, String.format("FFmpegKitFlutterPlugin %s initialised with activity %s.", this, activity));
     }
 
